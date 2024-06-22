@@ -1,4 +1,4 @@
-import React,{useRef} from 'react';
+import React,{useRef, useState} from 'react';
 import '../css/login.css';
 const URL_LOGIN="http://localhost/ws-login/login.php";
 
@@ -11,9 +11,9 @@ const enviarData = async (url, data)=> {
             'Content-Type': 'application/json'
         }
     });
-    //console.log(resp);
+    console.log(resp);
     const json = await resp.json()
-    //console.log(json);
+    console.log(json);
     
     return json;
 }
@@ -25,10 +25,15 @@ const enviarData = async (url, data)=> {
 
 export default function Login(props) {
 
+    const [error, setError]=useState(null);
+    const [espera,setEspera]= useState(false);
+
     const refUsuario = useRef(null);
     const refClave = useRef(null);
 
     const handleLogin= async() =>{
+            setEspera(true);
+
         const data = {
             "usuario" :  refUsuario.current.value,
             "clave" : refClave.current.value
@@ -37,7 +42,11 @@ export default function Login(props) {
             const respJson = await enviarData(URL_LOGIN, data);
             console.log("respuesta desde el evento", respJson);
 
-            props.acceder (respJson.conectado) 
+            props.acceder (respJson.conectado)
+            setError(respJson.error) 
+            setEspera(false);
+
+
     }
 
 
@@ -76,9 +85,21 @@ export default function Login(props) {
                                     ref={refClave}
                                 />
                             </div>
+
+                            {
+                                error &&
+                                <div className="alert alert-danger">
+                                    {error}
+                                </div>
+                            }
+
                             <button
                             onClick={handleLogin}
+                            disabled={espera}
                             className='btn btn-info btn-lg '>Acceder</button>
+                            <div className="card-foster">
+                                <span>¿Olvido su contraseña?</span> <a href="https://">Recuperar</a>
+                            </div>
                         </div>
                     </div>
                 </div>

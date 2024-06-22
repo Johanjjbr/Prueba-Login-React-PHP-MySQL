@@ -4,6 +4,6 @@
     left: 0%;
     height: 100%;
     width: 100%;
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(20,20,25,1) 31%, rgba(9,9,121,1) 63%, rgba(0,212,255,1) 91%);
+    background: rgb(0,213,249);
+    background: linear-gradient(90deg, rgba(0,213,249,1) 0%, rgba(55,239,205,1) 35%, rgba(249,248,113,1) 100%);
 }
